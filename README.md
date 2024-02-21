@@ -1,1 +1,1 @@
-# newsbite
+# newsbite-api
