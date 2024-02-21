@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driver-class-name: ${driver.class.name}
+    url: ${crawlingdb.url}
+    username: ${db.username}
+    password: ${db.password}
