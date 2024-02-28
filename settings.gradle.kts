@@ -1,1 +1,1 @@
-rootProject.name = "newsbite-api"
+rootProject.name = "aion-api"
