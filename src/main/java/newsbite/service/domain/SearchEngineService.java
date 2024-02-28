@@ -1,7 +1,7 @@
 package newsbite.service.domain;
 
-import newsbite.model.SearchEngineNewsResponse;
+import newsbite.dto.response.SearchEngineNewsResponse;
 
 public interface SearchEngineService {
-    public SearchEngineNewsResponse searchNews(String query);
+    public SearchEngineNewsResponse searchNews(String query, Integer start);
 }

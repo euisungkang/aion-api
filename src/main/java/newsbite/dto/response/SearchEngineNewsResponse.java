@@ -1,4 +1,4 @@
-package newsbite.model;
+package newsbite.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

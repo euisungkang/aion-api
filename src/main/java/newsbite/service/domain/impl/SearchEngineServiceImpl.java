@@ -1,12 +1,10 @@
 package newsbite.service.domain.impl;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.RequiredArgsConstructor;
 import newsbite.exception.RESTConnectionException;
 import newsbite.exception.ResponseProcessingException;
-import newsbite.model.SearchEngineNewsResponse;
+import newsbite.dto.response.SearchEngineNewsResponse;
 import newsbite.service.domain.SearchEngineService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -23,6 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class SearchEngineServiceImpl implements SearchEngineService {
 
     @Value("${naver.search.clientID}")
@@ -34,7 +32,9 @@ public class SearchEngineServiceImpl implements SearchEngineService {
     @Value("${naver.search.news.url}")
     private String searchNewsUrl;
 
-    public SearchEngineNewsResponse searchNews(String query) {
+    private final ObjectMapper mapper;
+
+    public SearchEngineNewsResponse searchNews(String query, Integer start) {
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", secret);
@@ -71,17 +71,12 @@ public class SearchEngineServiceImpl implements SearchEngineService {
         try {
             URL url = new URL(apiURL);
             return (HttpURLConnection)url.openConnection();
-        } catch (MalformedURLException ex) {
-            throw new RESTConnectionException("Search Engine URL is malformed. : " + apiURL, ex);
         } catch (IOException ex) {
             throw new RESTConnectionException("Search Engine connection failed. : " + apiURL, ex);
         }
     }
 
     private Optional<SearchEngineNewsResponse> readBody(InputStream body) throws IOException {
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
         try {
             SearchEngineNewsResponse response = mapper.readValue(body, SearchEngineNewsResponse.class);
             if (response.getDisplay() > 0 &&
