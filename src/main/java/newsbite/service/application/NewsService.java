@@ -4,5 +4,5 @@ import newsbite.dto.response.NewsQueryResponse;
 
 public interface NewsService {
 
-    public NewsQueryResponse queryNews(String query);
+    public NewsQueryResponse queryNews(String query, boolean retry);
 }

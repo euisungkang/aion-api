@@ -4,3 +4,9 @@ spring:
     url: ${crawlingdb.url}
     username: ${db.username}
     password: ${db.password}
+
+  data:
+    redis:
+      database: ${redis.database}
+      port: ${redis.port}
+      host: ${redis.host}
