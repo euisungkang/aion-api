@@ -31,4 +31,14 @@ public class NewsController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/threadtest")
+    public ResponseEntity<Object> threadTest() {
+
+        String thread = Thread.currentThread().toString();
+
+        logger.info(thread);
+
+        return new ResponseEntity<>(thread, HttpStatus.OK);
+    }
 }
